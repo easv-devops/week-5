@@ -7,6 +7,12 @@ steps:
     image: boulundeasv/dotnet-sdk-with-java
     commands:
       - apt-get update && apt-get install -y nodejs npm
-      - dotnet sonarscanner begin /k:"easv-devops_week-5_AY22pS88EVvRW2O60D-8" /d:sonar.host.url="http://sonar.setgo.dk:9000"  /d:sonar.token="sqp_1f13ecad205e6787220f030a462cf82372f698e2"
-      - dotnet build
+      - dotnet sonarscanner begin
+          /k:"easv-devops_week-5_AY22pS88EVvRW2O60D-8"
+          /d:sonar.host.url="http://sonar.setgo.dk:9000"
+          /d:sonar.token="sqp_1f13ecad205e6787220f030a462cf82372f698e2"
+          /d:sonar.cs.vscodecoverage.reportsPaths=coverage.xml
+          /d:sonar.qualitygate.wait=true
+      - dotnet build --no-incremental
+      - dotnet-coverage collect "dotnet test" -f xml -o "coverage.xml"
       - dotnet sonarscanner end /d:sonar.token="sqp_1f13ecad205e6787220f030a462cf82372f698e2"

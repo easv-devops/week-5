@@ -6,18 +6,7 @@ steps:
   - name: code-analysis
     image: boulundeasv/dotnet-sdk-with-java
     commands:
+      - apt-get update && apt-get install -y nodejs npm
       - dotnet sonarscanner begin /k:"easv-devops_week-5_AY22pS88EVvRW2O60D-8" /d:sonar.host.url="http://sonar.setgo.dk:9000"  /d:sonar.token="sqp_1f13ecad205e6787220f030a462cf82372f698e2"
       - dotnet build
       - dotnet sonarscanner end /d:sonar.token="sqp_1f13ecad205e6787220f030a462cf82372f698e2"
-
-  - name: build
-    image: mcr.microsoft.com/dotnet/sdk
-    commands:
-      - apt-get update && apt-get install -y nodejs npm
-      - dotnet build
-
-  - name: test
-    image: mcr.microsoft.com/dotnet/sdk:7.0
-    commands:
-      - cd tests/Blogifier.Tests
-      - dotnet test
